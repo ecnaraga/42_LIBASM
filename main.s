@@ -1,24 +1,38 @@
 section         .text
     global main
-    extern ft_test   ; Déclare la fonction externe
+    extern ft_strlen   ; Déclare la fonction externe
+    extern ft_write   ; Déclare la fonction externe
     extern printf    ; Déclare printf de la libc
 
+_start:
+    ;xor rax, rax
+
+;ft_write:
+;    mov rax, 1
+;    syscall
+;    ret
+
 main:
-    call ft_test     ; Appelle la fonction ft_test()
+    ;mov rdi, strsrc
+    ;call ft_strlen    ; Appelle la fonction ft_test()
+
+    ;mov rdi, strsrc
+    mov rdi, 1
+    mov rsi, strsrc
+    mov rdx, 1
+    ;mov rax, 1
+    ;syscall
+    xor rax, rax
+    call ft_write
     
-    ; Préparer l'appel à printf
-    mov rdi, format  ; 1er argument : adresse du format string
-    mov rsi, rax     ; 2e argument : valeur retournée par ft_test()
-    xor rax, rax     ; Remettre rax à 0 (nécessaire pour printf)
-    call printf      ; Appel de printf
-
     ; Quitter proprement
-    mov rax, 60      ; syscall: exit
-    xor rdi, rdi     ; code de retour = 0
-    syscall
+    ;mov rax, 60      ; syscall: exit
+    ;xor rdi, rdi     ; code de retour = 0
+    ;syscall
 
-    ;mov rax, 0         ; Valeur de retour = 0 (success)
-    ;ret
+   ;mov rax, 0         ; Valeur de retour = 0 (success)
+    ret
 
 section .data
-    format db "Résultat de ft_test : %d", 10, 0  ; Format de printf
+    format db "Résultat de ft_test : %ld", 10, 0  ; Format de printf
+    strsrc db "f", 0

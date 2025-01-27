@@ -1,31 +1,27 @@
 
 section         .text
-        global          _start
-        extern  printf
+    global          ft_strlen
 
-_start:
-        xor rax,rax ; ca permet de mettre la valeur 0 dans registre rax => idem xor rax,0
-        mov rdi, strsrc
+ft_strlen:
+    xor rax,rax ; initialise rax a 0
 
-debut:
-        cmp byte [rdi],0
-        je fin
-        inc rax
-        inc rdi
-        jmp debut
+    debut:
+        cmp byte [rdi],0 ; compare le byte pointe par rdi avec 0 (fin de chaine)
+        je fin  ; si les deux valeurs sont egales -> on saute a fin
+        inc rax ; increment rax (ici le compteur)
+        inc rdi ; increment rdi (le pointeur pour passer au char svt dans la string)
+        jmp debut ; jump au debut -> nouveau tour de boucle
 
-fin:
-        mov rax, rax
-        ret
-        ;mov rdi, format
-        ;mov rsi, rax
-        ;xor rax, rax
-        ;call printf
-        ;mov rax, 60             
-        ;xor rdi, rdi           
-        ;syscall                 
+    fin:
+        ret ; Retourne toujours la valeur stockee dans le registre rax
 
-section .data
-        strsrc db "premiere chaine", 0
-        format db "La longueur de la chaîne est : %ld", 0x0A, 0 ; 0x0A ou 10 pour le \n, 0 pour le \0
-        formatt db "%d", 10, 0
+; POINT DE COURS :
+
+; xor rax,rax   => Utilise la logique de la porte XOR :
+;                   - si les 2 bits sont egaux, il set a 0
+;                   - si 1 des deux est different, il set a 1
+;               => idem mov rax,0 (mais moins opti car xor plus proche du processeur)
+; rdi           => contient le premier argument donne a la fonction -> la chaine de caractere
+;               => si on veut passer des arguments a une fonction, il faudra toujours mov
+;                  le premier dans rdi avt de call la fonction 
+; rax           => temp register - On y stocke notamment la valeur de retour
