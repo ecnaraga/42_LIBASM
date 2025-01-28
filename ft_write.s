@@ -1,24 +1,26 @@
-section         .text:
+section         .text
     global          ft_write
 
 ft_write:
-    xor rax, rax
-    ;mov rdi, 1
-    ;mov rsi, strsrc
-    ;mov rdx, 1
     mov rax, 1
     syscall
     ret
 
-;section .data
-;    strsrc db "f", 0
-;
-;
-;    gdp prog
-;
-;    tui enable -> interface graphique
-;    layout asm -> afficher asm
-;    layout reg -> afficher contenu registre
-;    b main ou b ft_write => def breakpoint
-;    r -> run
-;    c -> continue jusqu au segfault ou prochain break point 
+; POINT DE COURS :
+
+; ft_write() fait un appel system appele sys_write decrit ci-dessous:
+;   numero      nom                      3 arguments
+;      1	    sys_write	unsigned int fd	| const char *buf | size_t count
+;   => mov rax, 1 : Le numero d un appel systeme doit toujours etre stocke dans rax
+;   => Les arguments d'un appel systeme ou d'un appel a une fonction sont stockes dans :
+;       - 1er argument : rdi
+;       - 2eme argument : rsi
+;       - 3eme argument : rdx
+;       - 4eme argument : rcx => A verifier pour appel systeme
+;       - 5eme argument : r8x
+;       - 6eme argument : r9x
+;   => Avant d appeler ft_write() ont ete stocke dans :
+;       - rdi : le fd
+;       - rsi : la string
+;       - rdx : la len de la string
+;   => Une fois les arguments stockes et l'appel systeme defini, pour faire l'appel systeme on utilise l instruction syscall

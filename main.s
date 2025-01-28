@@ -7,22 +7,13 @@ section         .text
 _start:
     ;xor rax, rax
 
-;ft_write:
-;    mov rax, 1
-;    syscall
-;    ret
-
 main:
-    ;mov rdi, strsrc
-    ;call ft_strlen    ; Appelle la fonction ft_test()
+    mov rdi, strsrc
+    call ft_strlen    ; Appelle la fonction ft_test()
 
-    ;mov rdi, strsrc
     mov rdi, 1
     mov rsi, strsrc
-    mov rdx, 1
-    ;mov rax, 1
-    ;syscall
-    xor rax, rax
+    mov rdx, rax
     call ft_write
     
     ; Quitter proprement
@@ -35,4 +26,4 @@ main:
 
 section .data
     format db "Résultat de ft_test : %ld", 10, 0  ; Format de printf
-    strsrc db "f", 0
+    strsrc db "faaaaa", 0
