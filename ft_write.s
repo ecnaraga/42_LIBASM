@@ -1,9 +1,21 @@
 section         .text
     global          ft_write
+    extern          __errno_location
+
+error:
+    mov r10, rax
+    call __errno_location wrt ..plt
+    mov [rax], r10
+    mov rax, -1
+    ret
 
 ft_write:
     mov rax, 1
+    sub rsp, 8
     syscall
+    add rsp, 8
+    cmp rax, 0
+    jl error
     ret
 
 ; POINT DE COURS :
