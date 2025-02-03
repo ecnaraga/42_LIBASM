@@ -1,6 +1,5 @@
 section         .text
     global          ft_strcmp
-    extern printf
 
 ft_strcmp:
     xor rax, rax
