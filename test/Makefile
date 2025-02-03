@@ -1,34 +1,29 @@
-NAME = libasm.a
+NAME = testing_libasm
 AS = nasm
 ASFLAGS = -f elf64 -g -F dwarf
 CC = gcc
-
-
-SRCS = ft_strlen.s \
-		ft_write.s \
-		ft_strcmp.s
+SRCS = main.s
+INC_LIB = libasm.a
 OBJS = $(SRCS:.s=.o)
-OBJS_BONUS = $(SRCS_BONUS:.s=.o)
 
 #################################### RULE ######################################
 
 all : $(NAME)
 
-%.o:%.s
+%.o : %.s
 	$(AS) $(ASFLAGS) -o $@ $<
 
 $(NAME) : $(OBJS)
-	ar -rcs $@ $(OBJS)
-
-bonus :
+	make -C .. all
+	$(CC) -g $(OBJS) -L .. -lasm -o $@
 
 clean :
+	make -C .. clean
 	rm -f *.o
 
 fclean : clean
+	make -C .. fclean
 	rm -f $(NAME)
 
 re : fclean
 	make all
-
-.PHONY : bonus, clean, fclean, re

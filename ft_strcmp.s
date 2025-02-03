@@ -10,7 +10,7 @@ ft_strcmp:
         je end
         cmp byte [rsi],0
         je end
-        mov al, [rdi]
+        mov al, byte [rdi]
         cmp al, byte [rsi]
         jne  end
         inc rdi
@@ -18,7 +18,8 @@ ft_strcmp:
         jmp debut
     
     end:
-        mov rax, [rdi]
-        mov rbx, [rsi]
-        sub rax, rbx
+        mov al, byte [rdi]
+        mov cl, byte [rsi]
+        sub al, cl
+        movsx rax, al ;=> le signe de al soit "maj" dans rax
         ret
