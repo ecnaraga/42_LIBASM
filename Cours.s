@@ -25,21 +25,21 @@ Boucles :
     Boucle while : 
             xor rax,rax   ; Declare une variable ax 
 	    debut:
-	    	cmp rax,10   ; Comparaison de ax et de la valeur 10
+	    	CMP rax,10   ; Comparaison de ax et de la valeur 10
 	    	jae fin     ; Test si le terme de gauche est superieur ou = au terme de droite => si oui on va direct au label fin
-	    	inc rax      ; On increment ax de 1
-	    	jmp debut   ; On jump au debut de la boucle
+	    	INC rax      ; On increment ax de 1
+	    	JMP debut   ; On jump au debut de la boucle
 	    fin:
 
     Boucle do ... while :
             xor rax,rax
         debut:
-            inc rax
-            cmp rax,10
+            INC rax
+            CMP rax,10
             jb  debut   ; On test si le terme de gauche est plus petit que le terme de droite => si oui on revient au debut
 
     Boucle for :
-            mov rcx,10  ; On stocke dans le registre de travail compteur le nb d'iteration a accomplir (10)
+            MOV rcx,10  ; On stocke dans le registre de travail compteur le nb d'iteration a accomplir (10)
         debut:
             nop         ; On ne fait rien
             loop debut  ; L'instruction loop va s executer tant que il reste des iterations a accomplir dans le compteur et decrementer le compteur automatiquement a chaque passage 

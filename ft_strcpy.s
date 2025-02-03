@@ -3,17 +3,17 @@ section         .text
 
     ft_strcpy:
         xor rax, rax
-        mov r12, rdi
+        MOV r12, rdi
 
         start:
-            mov al, byte [rsi]
-            mov byte [rdi], al
-            cmp byte [rsi], 0
-            je end
-            inc rdi
-            inc rsi
-            jmp start
+            MOV al, byte [rsi]
+            MOV byte [rdi], al
+            CMP byte [rsi], 0
+            JE  end
+            INC rdi
+            INC rsi
+            JMP start
         
         end:
-            mov rax, r12
+            MOV rax, r12
             ret

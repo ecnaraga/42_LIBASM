@@ -3,47 +3,69 @@ section         .text
     extern ft_strcmp
     extern ft_strlen   ; Déclare la fonction externe
     extern ft_write   ; Déclare la fonction externe
+    extern ft_strcpy
     extern printf    ; Déclare printf de la libc
 
 _start:
     ;xor rax, rax
 
 main:
-    push rbp
-    lea rdi, [rel strsrc]
-    push rbp
+    PUSH rbp
+    LEA rdi, [rel strsrc]
+    PUSH rbp
     call ft_strlen; Appelle la fonction ft_test()
-    pop rbp
+    POP rbp
 
-    mov rdi, 1
-    lea rsi, [rel strsrc]
-    mov rdx, rax
-    push rbp
+    MOV rdi, 1
+    LEA rsi, [rel strsrc]
+    MOV rdx, rax
+    PUSH rbp
     call ft_write
-    pop rbp
+    POP rbp
 
-    lea rdi, [rel strsrc]
-    lea rsi, [rel strsrcc]
-    push rbp
+    LEA rdi, [rel strsrc]
+    LEA rsi, [rel strsrcc]
+    PUSH rbp
     call ft_strcmp
-    pop rbp
-    lea rdi, [rel format]
-    mov rsi, rax
+    POP rbp
+    LEA rdi, [rel format]
+    MOV rsi, rax
     call printf wrt ..plt
 
-    ; Quitter proprement
+    LEA rdi, [rel strsrc]
+    LEA rsi, [rel strsrcc]
+    PUSH rbp
+    call ft_strcpy
+    POP rbp
+    MOV rdi, 1
+    MOV rsi, rax
+    MOV rdx, 9
+    PUSH rbp
+    call ft_write
+    POP rbp
+
+    MOV rdi, 0
+    LEA rsi, [rel array]
+    MOV RCX, 10
+    push rbp
+    call ft_read
     pop rbp
-    mov rax, 60      ; syscall: exit
+    
+
+    ; Quitter proprement
+    POP rbp
+    MOV rax, 60      ; syscall: exit
     xor rdi, rdi     ; code de retour = 0
     syscall
 
-   ;mov rax, 0         ; Valeur de retour = 0 (success)
+   ;MOV rax, 0         ; Valeur de retour = 0 (success)
     ret
 
 section .data
     format db "Résultat de ft_test : %d", 10, 0  ; Format de printf
-    strsrc db "aa", 10, 0
-    strsrcc db "aa", 10, 0
+    strsrc  db "abcdefgh", 10, 0
+    strsrcc db "mnopqrst", 10, 0
+    array TIMES 10 db 0
 
 ; POINT DE COURS :
 
@@ -68,9 +90,9 @@ section .data
 ;       - la relocation : Quand on va charger des variables constantes (qui sont
 ;           dans la section.data) vu qu on ne sait pas a l'avance ou elles seront stockee,
 ;           on va utiliser l instruction :
-;           lea rax, [rel ma_variable] => charger dans le registre l adresse de ma_variable
+;           LEA rax, [rel ma_variable] => charger dans le registre l adresse de ma_variable
 ;               lors du linkage final
-;           => cf ci-dessous : diff lea et mov
+;           => cf ci-dessous : diff LEA et MOV
 ;       - Par un appel indirect d'une fonction via la PLT :
 ;           call printf wrt ..plt OU call printf@plt => le linker dynamique va chercher la 
 ;               vraie adresse de printf via la PLT (Procedure Linkage Table)
@@ -85,13 +107,13 @@ section .data
 ;               dans la GOT l adresse reel de printf et l execute
 ;           4. A l execution appels suivants: la PLT fait appel directement a printf via la GOT
 ;               => Pas d 'appel au linker dynamique
-;   => diff lea et mov :
-;       - lea : nasm comprend qu il s'agit d une relocation relatives (adresse memoire relative)
+;   => diff LEA et MOV :
+;       - LEA : nasm comprend qu il s'agit d une relocation relatives (adresse memoire relative)
 ;           => il va calculer l adresse memoire ou se trouve la variable, sans lire la memoire
-;       - mov : nasm place d'une relocation absolue (depend d'une adresse memoire fixe)
+;       - MOV : nasm place d'une relocation absolue (depend d'une adresse memoire fixe)
 ;           => il va lire a l adresse memoire de la variable sans calcul d adresse
 ;       En contexte PIE pour acceder a la valeur contenu a une adresse memoire:
-;           lea rax, [rel ma_variable] (calcul adresse)
-;           mov rbx, [rax] (lecture memoire)
+;           LEA rax, [rel ma_variable] (calcul adresse)
+;           MOV rbx, [rax] (lecture memoire)
 ;       En contexte non PIE pour acceder a la valeur contenu a une adresse memoire:
-;           mov rbx, ma_variable (pas besoin de calcul adresse lecture memmoire direct)
+;           MOV rbx, ma_variable (pas besoin de calcul adresse lecture memmoire direct)

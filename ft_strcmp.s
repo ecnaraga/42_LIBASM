@@ -5,20 +5,20 @@ ft_strcmp:
     xor rax, rax
 
     debut:
-        cmp byte [rdi],0
-        je end
-        cmp byte [rsi],0
-        je end
-        mov al, byte [rdi]
-        cmp al, byte [rsi]
-        jne  end
-        inc rdi
-        inc rsi
-        jmp debut
+        CMP byte [rdi],0
+        JE end
+        CMP byte [rsi],0
+        JE end
+        MOV al, byte [rdi]
+        CMP al, byte [rsi]
+        JNE end
+        INC rdi
+        INC rsi
+        JMP debut
     
     end:
-        mov al, byte [rdi]
-        mov cl, byte [rsi]
+        MOV al, byte [rdi]
+        MOV cl, byte [rsi]
         sub al, cl
         movsx rax, al ;=> le signe de al soit "maj" dans rax
         ret
