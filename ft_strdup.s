@@ -32,4 +32,4 @@ section         .text
         POP rax
         CALL ft_strcpy
         POP rbp
-        ret
+        RET
