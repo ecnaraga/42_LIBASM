@@ -10,6 +10,9 @@ SRCS = ft_strlen.s \
 		ft_strcpy.s \
 		ft_read.s \
 		ft_strdup.s
+
+SRCS_BONUS = ft_atoi_base.s
+
 OBJS = $(SRCS:.s=.o)
 OBJS_BONUS = $(SRCS_BONUS:.s=.o)
 
@@ -23,7 +26,8 @@ all : $(NAME)
 $(NAME) : $(OBJS)
 	ar -rcs $@ $(OBJS)
 
-bonus :
+bonus : $(OBJS) $(OBJS_BONUS)
+	ar -rcs $@ $(OBJS) $(OBJS_BONUS)
 
 clean :
 	rm -f *.o
