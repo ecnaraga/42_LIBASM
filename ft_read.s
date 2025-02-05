@@ -4,14 +4,17 @@ section         .text
 
     error :
         MOV r10, rax
-        call __errno_location wrt ..plt
+        CALL __errno_location wrt ..plt
         MOV [rax], r10
         MOV rax, -1
-        ret
+        POP rbp
+        RET
 
     ft_read:
-        xor rax, rax
-        syscall
+        PUSH rbp
+        XOR rax, rax
+        SYSCALL
         CMP rax, 0
         JL  error
-        ret
+        POP rbp
+        RET
