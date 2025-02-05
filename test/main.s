@@ -4,68 +4,146 @@ section         .text
     extern ft_strlen   ; Déclare la fonction externe
     extern ft_write   ; Déclare la fonction externe
     extern ft_strcpy
+    extern ft_strdup
+    extern ft_read
     extern printf    ; Déclare printf de la libc
+    extern free
 
-_start:
-    ;xor rax, rax
+;_start:
+    ;XOR rax, rax
 
 main:
-    PUSH rbp
+    PUSH rbp ; => Save the rbp pointer on the stack
+    ; Call ft_strlen
     LEA rdi, [rel strsrc]
-    PUSH rbp
-    call ft_strlen; Appelle la fonction ft_test()
-    POP rbp
+    CALL ft_strlen; Appelle la fonction ft_test()
 
+    ; Call printf to print ret ft_strlen
+    LEA rdi, [rel f_ft_strlen]
+    MOV rsi, rax
+    PUSH rax
+    SUB rsp, 8
+    CALL printf wrt ..plt
+    ADD rsp, 8
+    POP rax
+
+    ; Call ft_write to print on sdtdout
     MOV rdi, 1
     LEA rsi, [rel strsrc]
     MOV rdx, rax
-    PUSH rbp
-    call ft_write
-    POP rbp
+    CALL ft_write
 
-    LEA rdi, [rel strsrc]
-    LEA rsi, [rel strsrcc]
-    PUSH rbp
-    call ft_strcmp
-    POP rbp
-    LEA rdi, [rel format]
+    ; Call printf to print ret ft_write
+    LEA rdi, [rel f_ft_write]
     MOV rsi, rax
-    call printf wrt ..plt
+    PUSH rax
+    SUB rsp, 8
+    CALL printf wrt ..plt
+    ADD rsp, 8
+    POP rax
 
+    ; Call ft_write to check ret -1
+    MOV rdi, -1
+    LEA rsi, [rel strsrc]
+    CALL ft_write
+
+    ; Call printf to print ret ft_write
+    LEA rdi, [rel f_ft_write]
+    MOV rsi, rax
+    PUSH rax
+    SUB rsp, 8
+    CALL printf wrt ..plt
+    ADD rsp, 8
+    POP rax
+
+    ; Call ft_strcmp
     LEA rdi, [rel strsrc]
     LEA rsi, [rel strsrcc]
-    PUSH rbp
-    call ft_strcpy
-    POP rbp
+    CALL ft_strcmp
+
+    ; Call printf to print ret ft_strcmp
+    LEA rdi, [rel f_ft_strcmp]
+    MOV rsi, rax
+    CALL printf wrt ..plt
+
+    ; Call ft_strcpy
+    LEA rdi, [rel strsrc]
+    LEA rsi, [rel strsrcc]
+    PUSH rdi ; Sauvegarde du registre par l appelant
+    PUSH rsi ; Sauvegarde du registre par l appelant
+    CALL ft_strcpy
+    POP rsi ; Restauration du registre par l appelant
+    POP rdi ; Restauration du registre par l appelant
+
+    PUSH rdi
+
+    ; Call ft_write to print ret ft_strcpy on sdtdout
     MOV rdi, 1
     MOV rsi, rax
     MOV rdx, 9
-    PUSH rbp
-    call ft_write
-    POP rbp
+    SUB rsp, 8
+    CALL ft_write
+    ADD rsp, 8
 
-    MOV rdi, 0
-    LEA rsi, [rel array]
-    MOV RCX, 10
-    push rbp
-    call ft_read
-    pop rbp
+    POP rdi
+
+    ; Call ft_write to print ret ft_strcpy on sdtdout
+    MOV rsi, rdi
+    MOV rdi, 1
+    CALL ft_write
+
+    ; Call ft_write to print ret ft_strcpy on sdtdout
+    LEA rsi, [rel strsrc]
+    CALL ft_write
+
+    ;; Call printf to print ret ft_write
+    LEA rdi, [rel f_ft_write]
+    MOV rsi, rax
+    CALL printf wrt ..plt
+
+    ; Call ft_read on stdin
+    XOR rdi, rdi
+    LEA rsi, [rel buffer]
+    MOV rdx, 9
+    CALL ft_read
     
+    ; Call ft_write to print rsi on stdout
+    MOV rdi, 1
+    MOV rdx, 9
+    CALL ft_write
 
+    ; Call ft_write to print buffer on sdtdout
+    LEA rsi, [rel buffer]
+    CALL ft_write
+
+    ; Call ft_strdup on strsrc
+    LEA rdi, [rel strsrc]
+    CALL ft_strdup
+
+    ; Call ft_write to print ret of ft_strdup on stdout
+    MOV rdi, 1
+    MOV rsi, rax
+    MOV rdx, 9
+    CALL ft_write
+
+    MOV rdi, rsi
+    CALL free wrt ..plt
     ; Quitter proprement
-    POP rbp
-    MOV rax, 60      ; syscall: exit
-    xor rdi, rdi     ; code de retour = 0
-    syscall
+    POP rbp ; => Restor the rbp pointer
+    MOV rax, 60      ; SYSCALL: exit
+    XOR rdi, rdi     ; code de retour = 0
+    SYSCALL
 
-   ;MOV rax, 0         ; Valeur de retour = 0 (success)
-    ret
+    ;MOV rax, 0         ; Valeur de retour = 0 (success)
+    ;ret
 
 section .data
-    format db "Résultat de ft_test : %d", 10, 0  ; Format de printf
+    f_ft_strlen db "Résultat de ft_strlen : %d", 10, 0  ; Format de printf
+    f_ft_write db "Résultat de ft_write : %d", 10, 0  ; Format de printf
+    f_ft_strcmp db "Résultat de ft_strcmp : %d", 10, 0  ; Format de printf
     strsrc  db "abcdefgh", 10, 0
     strsrcc db "mnopqrst", 10, 0
-    array TIMES 10 db 0
+    buffer TIMES 10 db 0 ; Declare an array of size 10 filled with 0
 
 ; POINT DE COURS :
 
@@ -74,7 +152,11 @@ section .data
 ;       destination operand is a memory operand, the operand must be 
 ;       aligned on a 16-byte boundary or a general-protection exception 
 ;       (#GP) is generated.
-
+; => ABI doc :  the stack needs to be 16 (32 or 64) byte aligned immediately before the call
+;   instruction is executed. Once control has been transferred to the function entry point, i.e.
+;   immediately after the return address has been pushed, %rsp points to the return address,
+;   and the value of (%rsp + 8) is a multiple of 16 (32 or 64).
+; => SO before calling a function, rsp % 16 HAS TO BE EQUAL TO 0 
 
 ; PIE : Position independent executable
 ;   => Type d executable qui va etre charge par le systeme a n'importe 
@@ -94,7 +176,7 @@ section .data
 ;               lors du linkage final
 ;           => cf ci-dessous : diff LEA et MOV
 ;       - Par un appel indirect d'une fonction via la PLT :
-;           call printf wrt ..plt OU call printf@plt => le linker dynamique va chercher la 
+;           CALL printf wrt ..plt OU CALL printf@plt => le linker dynamique va chercher la 
 ;               vraie adresse de printf via la PLT (Procedure Linkage Table)
 ;           1. A la compilation : nasm enregistre un appel dans la PLT pour appeler printf a l exec 
 ;               => adresse de printf non connue, il indique de resoudre plus tard

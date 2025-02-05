@@ -2,7 +2,8 @@ section         .text
     global  ft_strcpy
 
     ft_strcpy:
-        xor rax, rax
+        PUSH rbp
+        XOR rax, rax
         MOV r12, rdi
 
         start:
@@ -16,4 +17,5 @@ section         .text
         
         end:
             MOV rax, r12
-            ret
+            POP rbp
+            RET

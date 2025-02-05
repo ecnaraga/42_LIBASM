@@ -23,7 +23,7 @@ Les registres :
 
 Boucles :
     Boucle while : 
-            xor rax,rax   ; Declare une variable ax 
+            XOR rax,rax   ; Declare une variable ax 
 	    debut:
 	    	CMP rax,10   ; Comparaison de ax et de la valeur 10
 	    	jae fin     ; Test si le terme de gauche est superieur ou = au terme de droite => si oui on va direct au label fin
@@ -32,7 +32,7 @@ Boucles :
 	    fin:
 
     Boucle do ... while :
-            xor rax,rax
+            XOR rax,rax
         debut:
             INC rax
             CMP rax,10

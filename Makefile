@@ -8,7 +8,8 @@ SRCS = ft_strlen.s \
 		ft_write.s \
 		ft_strcmp.s \
 		ft_strcpy.s \
-		ft_read.s
+		ft_read.s \
+		ft_strdup.s
 OBJS = $(SRCS:.s=.o)
 OBJS_BONUS = $(SRCS_BONUS:.s=.o)
 

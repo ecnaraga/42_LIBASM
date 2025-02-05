@@ -4,19 +4,22 @@ section         .text
 
     error:
         MOV r10, rax
-        call __errno_location wrt ..plt
+        CALL __errno_location wrt ..plt
         MOV [rax], r10
         MOV rax, -1
-        ret
+        POP rbp
+        RET
 
     ft_write:
+        PUSH rbp
         MOV rax, 1
-        sub rsp, 8
-        syscall
-        add rsp, 8
+        SUB rsp, 8
+        SYSCALL
+        ADD rsp, 8
         CMP rax, 0
         JL  error
-        ret
+        POP rbp
+        RET
 
 ; POINT DE COURS :
 
@@ -35,4 +38,4 @@ section         .text
 ;       - rdi : le fd
 ;       - rsi : la string
 ;       - rdx : la len de la string
-;   => Une fois les arguments stockes et l'appel systeme defini, pour faire l'appel systeme on utilise l instruction syscall
+;   => Une fois les arguments stockes et l'appel systeme defini, pour faire l'appel systeme on utilise l instruction SYSCALL
