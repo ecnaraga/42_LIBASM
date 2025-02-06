@@ -6,14 +6,16 @@ section         .text
     extern ft_strcpy
     extern ft_strdup
     extern ft_read
+    extern ft_atoi_base
     extern printf    ; Déclare printf de la libc
     extern free
 
 ;_start:
-    ;XOR rax, rax
-
+    ;PUSH rbp ; => Save the rbp pointer on the stack
+    ;JMP main
 main:
     PUSH rbp ; => Save the rbp pointer on the stack
+    MOV rbp, rsp
     ; Call ft_strlen
     LEA rdi, [rel strsrc]
     CALL ft_strlen; Appelle la fonction ft_test()
@@ -125,9 +127,14 @@ main:
     MOV rsi, rax
     MOV rdx, 9
     CALL ft_write
-
     MOV rdi, rsi
     CALL free wrt ..plt
+    
+    ; Call ft_atoi_base
+    LEA rdi, [rel str_int]
+    LEA rsi, [rel base]
+    CALL ft_atoi_base
+
     ; Quitter proprement
     POP rbp ; => Restor the rbp pointer
     MOV rax, 60      ; SYSCALL: exit
@@ -143,6 +150,8 @@ section .data
     f_ft_strcmp db "Résultat de ft_strcmp : %d", 10, 0  ; Format de printf
     strsrc  db "abcdefgh", 10, 0
     strsrcc db "mnopqrst", 10, 0
+    str_int db "123", 10, 0
+    base db "0123456789", 10, 0
     buffer TIMES 10 db 0 ; Declare an array of size 10 filled with 0
 
 ; POINT DE COURS :
