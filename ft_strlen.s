@@ -4,6 +4,7 @@ section         .text
 
 ft_strlen:
     PUSH rbp
+    MOV rbp, rsp
     XOR rax,rax ; initialise rax a 0
 
     debut:
