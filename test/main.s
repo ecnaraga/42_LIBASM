@@ -98,7 +98,7 @@ main:
     LEA rsi, [rel strsrc]
     CALL ft_write
 
-    ;; Call printf to print ret ft_write
+    ; Call printf to print ret ft_write
     LEA rdi, [rel f_ft_write]
     MOV rsi, rax
     CALL printf wrt ..plt
@@ -135,6 +135,11 @@ main:
     LEA rsi, [rel base]
     CALL ft_atoi_base
 
+    ; Call printf to print ret ft_write
+    LEA rdi, [rel f_ft_atoi_base]
+    MOV rsi, rax
+    CALL printf wrt ..plt
+
     ; Quitter proprement
     POP rbp ; => Restor the rbp pointer
     MOV rax, 60      ; SYSCALL: exit
@@ -148,10 +153,12 @@ section .data
     f_ft_strlen db "Résultat de ft_strlen : %d", 10, 0  ; Format de printf
     f_ft_write db "Résultat de ft_write : %d", 10, 0  ; Format de printf
     f_ft_strcmp db "Résultat de ft_strcmp : %d", 10, 0  ; Format de printf
-    strsrc  db "abcdefgh", 10, 0
-    strsrcc db "mnopqrst", 10, 0
-    str_int db "123", 10, 0
-    base db "0123456789", 10, 0
+    f_ft_atoi_base db "Résultat de ft_atoi_base : %d", 10, 0  ; Format de printf
+    strsrc  db 0
+    ; strsrc  db "abcdefgh", 10, 0
+    strsrcc db 1, 10, 0
+    str_int db "    -123", 0
+    base db "0123456", 0
     buffer TIMES 10 db 0 ; Declare an array of size 10 filled with 0
 
 ; POINT DE COURS :
