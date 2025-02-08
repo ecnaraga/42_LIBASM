@@ -2,12 +2,15 @@ section         .text
     global  ft_atoi_base
     extern  ft_strlen
 
+    err2 :
+        POP r12
+        JMP err1
+
     err1 :
         POP rbp
-        ADD rsp, 8 ; POUR OUBLIER L ADRESSE DE RETOUR APRES UN CALL FT_FORBIDDEN
+        ADD rsp, 8 ; TO FORGET RETURN ADDRESS AFTER CALL FT_FORBIDDEN
         POP rbp
-        ADD rsp, 8 ; POUR OUBLIER L ADRESSE DE RETOUR APRES UN CALL FT_CHECK_BASE
-        ADD rsp, 8
+        ADD rsp, 8 ; TO FORGET RETURN ADDRESS AFTER CALL FT_CHECK_BASE
         POP rsi
         POP rdi
         POP rax
@@ -15,6 +18,7 @@ section         .text
 
     err :
         MOV rax, 0
+        POP rbx
         POP rbp
         RET
     
@@ -47,15 +51,17 @@ section         .text
     ; rdi = base + i with i incremented in the loop of ft_check_base
     ft_check_double:
         PUSH rbp
+        PUSH r12
         MOV rbp, rsp
-        MOV rsi, rdi
+        MOV r12, rdi
         MOV al, byte [rdi]
         begin0:
-            INC rsi
-            CMP al, byte [rsi]
-            JE err1
-            CMP byte [rsi], 0
+            INC r12
+            CMP al, byte [r12]
+            JE err2
+            CMP byte [r12], 0
             JNE begin0
+            POP r12
             POP rbp
             RET
 
@@ -72,6 +78,7 @@ section         .text
         POP rbp
         RET
     
+    ; rdi = litteral string of int at index 0
     ft_skip_space:
         PUSH rbp
         MOV rbp, rsp
@@ -119,11 +126,12 @@ section         .text
     
     ; rdi : litteral string of int incremented where the char is part of the int
     ; rsi : base
-    ; rax : compteur => SI == len_base - 1 => char ne fait pas partie de la base
-    ft_position:; A TESTER
+    ; rax : counter => IF == len_base => byte is absent of base
+    ft_position:
         PUSH rbp
         MOV rbp, rsp
         MOV rax, -1
+        PUSH rbx
         MOV bl, byte [rdi]
         DEC rsi
         JMP begin5
@@ -135,45 +143,77 @@ section         .text
             CMP byte [rsi], bl
             JNE begin5
         end:
+            POP rbx
             POP rbp
             RET
+    
+    ; rdi = string with the litteral int
+    ; rsi = base
+    ; rdx = sign of int
+    ft_atoi:
+        PUSH rbp
+        MOV rbp, rsp
+        PUSH r12
+        PUSH r13
+        XOR r12, r12 ; r12 = result
+        begin4:
+            CMP byte [rdi], 0
+            JE end1
+            PUSH rax
+            PUSH rsi
+            CALL ft_position
+            POP rsi
+            MOV r13, rax ; r13 = index position in base
+            POP rax
+            CMP r13, rax ; Check if byte is in base
+            JE end1
+            IMUL r12, rax
+            ADD r12, r13
+            INC rdi
+            JMP begin4
+        end1: 
+            MOV rax, r12
+            IMUL rax, rdx
+        POP r13
+        POP r12
+        POP rbp
+        RET
 
     ; rdi = string with the litteral int
     ; rsi = base
     ft_atoi_base:
         PUSH rbp
         MOV rbp, rsp
-        CMP rsi, 0; If pointeur base == NULL
+        PUSH rbx
+        CMP rsi, 0 ; Check if pointeur base == NULL
         JE  err
         PUSH rdi
         MOV rdi, rsi
-        SUB rsp, 8
         CALL ft_strlen ; rax = size of base
-        ADD rsp, 8
         POP rdi
-        CMP rax, 1 ; If len_base <= 1
+        CMP rax, 1 ; Check if len_base <= 1
         JLE err
         PUSH rax
         PUSH rdi
         PUSH rsi
         MOV rdi, rsi
-        SUB rsp, 8
-        CALL ft_check_base ; If doubles or forbidden char in base
-        ADD rsp, 8
+        CALL ft_check_base ; Check if doubles or forbidden char in base
         POP rsi
         POP rdi
         POP rax
         PUSH rdi
-        SUB rsp, 8
         CALL ft_skip_space
-        ADD rsp, 8
         PUSH rax
-        SUB rsp, 8
         CALL ft_sign
-        ADD rsp, 8
-        MOV rbx, rax ; rbx = signe de l int
+        MOV rbx, rax ; rbx = sign of int
         POP rax
-
+        MOV rdx, rbx
+        PUSH rdx
+        CALL ft_atoi
+        POP rdx
         POP rdi
+        POP rbx
         POP rbp
         RET
+
+section .note.GNU-stack noalloc noexec nowrite progbits
