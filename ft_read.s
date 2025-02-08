@@ -12,6 +12,7 @@ section         .text
 
     ft_read:
         PUSH rbp
+        MOV rbp, rsp
         XOR rax, rax
         SYSCALL
         CMP rax, 0

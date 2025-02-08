@@ -3,6 +3,7 @@ section         .text
 
     ft_strcpy:
         PUSH rbp
+        MOV rbp, rsp
         XOR rax, rax
         MOV r12, rdi
 

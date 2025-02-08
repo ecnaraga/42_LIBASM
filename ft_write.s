@@ -12,6 +12,7 @@ section         .text
 
     ft_write:
         PUSH rbp
+        MOV rbp, rsp
         MOV rax, 1
         SUB rsp, 8
         SYSCALL

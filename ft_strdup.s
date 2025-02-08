@@ -12,6 +12,7 @@ section         .text
 
     ft_strdup :
         PUSH rbp
+        MOV rbp, rsp
         PUSH rdi
         SUB rsp, 8
         CALL ft_strlen ;rax = len de rdi
