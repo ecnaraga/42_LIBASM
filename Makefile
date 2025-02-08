@@ -4,14 +4,16 @@ AS = nasm
 ASFLAGS = -f elf64 -g -F dwarf
 CC = gcc -g
 
-SRCS = ft_strlen.s \
+SRCS = 	ft_strlen.s \
 		ft_write.s \
 		ft_strcmp.s \
 		ft_strcpy.s \
 		ft_read.s \
 		ft_strdup.s
 
-SRCS_BONUS = ft_atoi_base.s
+SRCS_BONUS =	ft_atoi_base.s \
+				ft_list_push_front.s \
+				ft_list_size.s
 
 OBJS = $(SRCS:.s=.o)
 OBJS_BONUS = $(SRCS_BONUS:.s=.o)
