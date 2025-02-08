@@ -24,3 +24,5 @@ ft_strcmp:
         MOVSX rax, al ;=> le signe de al soit "maj" dans rax
         POP rbp
         RET
+
+section .note.GNU-stack noalloc noexec nowrite progbits

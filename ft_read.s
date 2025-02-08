@@ -18,3 +18,5 @@ section         .text
         JL  error
         POP rbp
         RET
+
+section .note.GNU-stack noalloc noexec nowrite progbits

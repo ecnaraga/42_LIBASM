@@ -15,7 +15,8 @@ all : $(NAME)
 
 $(NAME) : $(OBJS)
 	make -C .. all
-	$(CC) -g $(OBJS) -L .. -lasm -o $@
+	make -C .. bonus
+	$(CC) -g $(OBJS) -L .. -lasm -lasm_bonus -o $@
 
 clean :
 	make -C .. clean

@@ -39,3 +39,5 @@ section         .text
 ;       - rsi : la string
 ;       - rdx : la len de la string
 ;   => Une fois les arguments stockes et l'appel systeme defini, pour faire l'appel systeme on utilise l instruction SYSCALL
+
+section .note.GNU-stack noalloc noexec nowrite progbits

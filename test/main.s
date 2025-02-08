@@ -133,7 +133,15 @@ main:
     ; Call ft_atoi_base
     LEA rdi, [rel str_int]
     LEA rsi, [rel base]
+    PUSH rdi
+    PUSH rsi
+    PUSH rdx
+    SUB rsp, 8
     CALL ft_atoi_base
+    ADD rsp, 8
+    POP rdx
+    POP rsi
+    POP rdi
 
     ; Call printf to print ret ft_write
     LEA rdi, [rel f_ft_atoi_base]
@@ -154,11 +162,11 @@ section .data
     f_ft_write db "Résultat de ft_write : %d", 10, 0  ; Format de printf
     f_ft_strcmp db "Résultat de ft_strcmp : %d", 10, 0  ; Format de printf
     f_ft_atoi_base db "Résultat de ft_atoi_base : %d", 10, 0  ; Format de printf
-    strsrc  db 0
-    ; strsrc  db "abcdefgh", 10, 0
+    ; strsrc  db 0
+    strsrc  db "abcdefgh", 10, 0
     strsrcc db 1, 10, 0
-    str_int db "    -123", 0
-    base db "0123456", 0
+    str_int db "    -123A", 0
+    base db "0123456789A", 0
     buffer TIMES 10 db 0 ; Declare an array of size 10 filled with 0
 
 ; POINT DE COURS :
@@ -215,3 +223,5 @@ section .data
 ;           MOV rbx, [rax] (lecture memoire)
 ;       En contexte non PIE pour acceder a la valeur contenu a une adresse memoire:
 ;           MOV rbx, ma_variable (pas besoin de calcul adresse lecture memmoire direct)
+
+section .note.GNU-stack noalloc noexec nowrite progbits

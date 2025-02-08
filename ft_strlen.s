@@ -28,3 +28,5 @@ ft_strlen:
 ;               => si on veut passer des arguments a une fonction, il faudra toujours mov
 ;                  le premier dans rdi avt de CALL la fonction 
 ; rax           => temp register - On y stocke notamment la valeur de retour
+
+section .note.GNU-stack noalloc noexec nowrite progbits

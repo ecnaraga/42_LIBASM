@@ -19,3 +19,5 @@ section         .text
             MOV rax, r12
             POP rbp
             RET
+
+section .note.GNU-stack noalloc noexec nowrite progbits
