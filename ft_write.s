@@ -10,13 +10,16 @@ section         .text
         POP rbp
         RET
 
+    ; 1er para rdi
+    ; 2er para rsi string
+    ; 3er para rcx len
     ft_write:
         PUSH rbp
         MOV rbp, rsp
         MOV rax, 1
-        SUB rsp, 8
+        ; SUB rsp, 8
         SYSCALL
-        ADD rsp, 8
+        ; ADD rsp, 8
         CMP rax, 0
         JL  error
         POP rbp
