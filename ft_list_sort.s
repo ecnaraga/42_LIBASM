@@ -1,13 +1,13 @@
 section        .text
     global ft_list_sort
 
-    end:
-        ADD rsp, 8
-        POP r14
-        POP r13
-        POP r12
-        POP rbp
-        RET
+    ; end:
+    ;     ADD rsp, 8
+    ;     POP r14
+    ;     POP r13
+    ;     POP r12
+    ;     POP rbp
+    ;     RET
     
     swap1:
         MOV [r14], r11
@@ -62,10 +62,10 @@ section        .text
                 MOV r9, r10 ; pointeur sur elem-2
                 MOV esi, edi
                 JMP loop
-
-        ADD rsp, 8
-        POP r14
-        POP r13
-        POP r12
-        POP rbp
-        RET
+        end:
+            ADD rsp, 8
+            POP r14
+            POP r13
+            POP r12
+            POP rbp
+            RET
