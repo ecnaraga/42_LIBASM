@@ -85,10 +85,12 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused))) {
 	int a = 11;
 	ft_list_remove_if(&begin, &a, ft_cmp, free_fct);
 	printf("\n");
+	tmp = begin;
 	while (begin) {
 		printf("%d\n", *(int*)(begin->data));
 		begin = begin->next;
 	}
+	begin = tmp;
 }
 
 /*

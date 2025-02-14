@@ -10,6 +10,7 @@ section         .text
         POP rbp
         RET
 
+    ALIGN 16
     ft_read:
         PUSH rbp
         MOV rbp, rsp

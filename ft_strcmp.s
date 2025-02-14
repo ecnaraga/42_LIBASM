@@ -1,6 +1,7 @@
 section         .text
     global          ft_strcmp
 
+    ALIGN 16
     ft_strcmp:
         PUSH rbp
         MOV rbp, rsp

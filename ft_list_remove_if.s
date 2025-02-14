@@ -8,7 +8,11 @@ section         .text
 
     ft_free:
         MOV rdi, r12
+        PUSH r11
+        SUB rsp, 8
         CALL r9
+        ADD rsp, 8
+        POP r11
         MOV r15, [r11 + 8]
         CMP r14, 0
         JE ft_link
@@ -26,11 +30,11 @@ section         .text
     ; rcx : pointeur sur fonction free_fct
     ft_list_remove_if:
         PUSH rbp
+        MOV rbp, rsp
         PUSH r12
         PUSH r13
         PUSH r14
         PUSH r15
-        MOV rbp, rsp
         CMP rdi, 0
         JE end
         CMP rsi, 0
@@ -50,7 +54,7 @@ section         .text
             JE end
             MOV r12, [r11] ; r12 : void *data
             MOV r13, [r12] ; r12 : data dereference
-            CMP r13, rsi
+            CMP r13d, esi
             JE ft_free
             MOV r14, r11 ; r14 : elem-1
             MOV r11, [r11 + 8] ; begin = begin->next

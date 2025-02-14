@@ -1,4 +1,5 @@
 section         .text
+    align 16
     global main
     extern ft_strcmp
     extern ft_strlen   ; Déclare la fonction externe
@@ -13,6 +14,8 @@ section         .text
 ;_start:
     ;PUSH rbp ; => Save the rbp pointer on the stack
     ;JMP main
+
+ALIGN 16
 main:
     PUSH rbp ; => Save the rbp pointer on the stack
     MOV rbp, rsp
@@ -143,10 +146,13 @@ main:
     POP rsi
     POP rdi
 
+    ; PUSH rdi
     ; Call printf to print ret ft_write
     LEA rdi, [rel f_ft_atoi_base]
     MOV rsi, rax
+    ; ALIGN 8
     CALL printf wrt ..plt
+    ; POP rdi
 
     ; Quitter proprement
     POP rbp ; => Restor the rbp pointer
@@ -157,7 +163,7 @@ main:
     ;MOV rax, 0         ; Valeur de retour = 0 (success)
     ;ret
 
-section .data
+section .data align=16
     f_ft_strlen db "Résultat de ft_strlen : %d", 10, 0  ; Format de printf
     f_ft_write db "Résultat de ft_write : %d", 10, 0  ; Format de printf
     f_ft_strcmp db "Résultat de ft_strcmp : %d", 10, 0  ; Format de printf

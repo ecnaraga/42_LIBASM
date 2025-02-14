@@ -2,21 +2,23 @@
 section         .text
     global          ft_strlen
 
-ft_strlen:
-    PUSH rbp
-    MOV rbp, rsp
-    XOR rax,rax ; initialise rax a 0
+    ALIGN 16
+    ft_strlen:
+        PUSH rbp
+        MOV rbp, rsp
+        XOR rax,rax ; initialise rax a 0
 
-    debut:
-        CMP byte [rdi],0 ; compare le byte pointe par rdi avec 0 (fin de chaine)
-        JE  fin  ; si les deux valeurs sont egales -> on saute a fin
-        INC rax ; increment rax (ici le compteur)
-        INC rdi ; increment rdi (le pointeur pour passer au char svt dans la string)
-        JMP debut ; jump au debut -> nouveau tour de boucle
+        ALIGN 16
+        debut:
+            CMP byte [rdi],0 ; compare le byte pointe par rdi avec 0 (fin de chaine)
+            JE  fin  ; si les deux valeurs sont egales -> on saute a fin
+            INC rax ; increment rax (ici le compteur)
+            INC rdi ; increment rdi (le pointeur pour passer au char svt dans la string)
+            JMP debut ; jump au debut -> nouveau tour de boucle
 
-    fin:
-        POP rbp
-        RET ; Retourne toujours la valeur stockee dans le registre rax
+        fin:
+            POP rbp
+            RET ; Retourne toujours la valeur stockee dans le registre rax
 
 ; POINT DE COURS :
 

@@ -13,6 +13,7 @@ section         .text
     ; 1er para rdi
     ; 2er para rsi string
     ; 3er para rcx len
+    ALIGN 16
     ft_write:
         PUSH rbp
         MOV rbp, rsp

@@ -181,6 +181,7 @@ section         .text
 
     ; rdi = string with the litteral int
     ; rsi = base
+    ALIGN 16
     ft_atoi_base:
         PUSH rbp
         MOV rbp, rsp

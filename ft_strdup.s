@@ -10,6 +10,7 @@ section         .text
         POP rbp
         ret
 
+    ALIGN 16
     ft_strdup :
         PUSH rbp
         MOV rbp, rsp
