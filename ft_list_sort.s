@@ -9,12 +9,14 @@ section        .text
     ;     POP rbp
     ;     RET
     
+    ALIGN 16
     swap1:
         MOV [r14], r11
         MOV r13, [r11 + 8]
         MOV [r10 + 8], r13
         MOV [r11 + 8], r10
         JMP sort
+    ALIGN 16
     swap:
         CMP r9, 0
         JE swap1
@@ -28,6 +30,7 @@ section        .text
     ; [[rdi]] : valeur stocke dans data -> pointeur sur int
     ; MOV ecx, [rax] => ecx : valeur de l int pointe par data (ecx et non rcx ou cl car int = 32 bit)
     ; rsi : pointeur sur fonction
+    ALIGN 16
     ft_list_sort :
         PUSH rbp
         PUSH r12
@@ -41,6 +44,7 @@ section        .text
         JE end
         MOV r8, rsi ; r8 = pointeur sur fonction
         MOV r14, rdi ; r14 = double pointeur sur debut de list
+        ALIGN 16
         sort:
             XOR r9, r9
             MOV r11, [r14]
@@ -49,6 +53,7 @@ section        .text
             MOV r12, [r11]
             XOR rsi, rsi
             MOV esi, [r12] ; rsi = valeur pointe par data -> Valeur a comparer 
+            ALIGN 16
             loop:
                 MOV r10, r11 ; r10 = pointeur sur l elem-1
                 MOV r11, [r11 + 8] ; r11 = pointeur sur l elem0
@@ -62,6 +67,7 @@ section        .text
                 MOV r9, r10 ; pointeur sur elem-2
                 MOV esi, edi
                 JMP loop
+        ALIGN 16
         end:
             ADD rsp, 8
             POP r14

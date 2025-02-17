@@ -6,6 +6,7 @@ section         .text
         POP r12
         JMP err1
 
+    ALIGN 16
     err1 :
         POP rbp
         ADD rsp, 8 ; TO FORGET RETURN ADDRESS AFTER CALL FT_FORBIDDEN
@@ -16,6 +17,7 @@ section         .text
         POP rax
         JMP err
 
+    ALIGN 16
     err :
         MOV rax, 0
         POP rbx
@@ -24,6 +26,7 @@ section         .text
     
     ; Check if forbidden char in base[i]
     ; rdi = base + i with i incremented in the loop of ft_check_base
+    ALIGN 16
     ft_forbidden_char:
         PUSH rbp
         MOV rbp, rsp
@@ -49,12 +52,14 @@ section         .text
         RET
     
     ; rdi = base + i with i incremented in the loop of ft_check_base
+    ALIGN 16
     ft_check_double:
         PUSH rbp
         PUSH r12
         MOV rbp, rsp
         MOV r12, rdi
         MOV al, byte [rdi]
+        ALIGN 16
         begin0:
             INC r12
             CMP al, byte [r12]
@@ -66,9 +71,11 @@ section         .text
             RET
 
     ; rdi = base
+    ALIGN 16
     ft_check_base:
         PUSH rbp
         MOV rbp, rsp
+        ALIGN 16
         begin1:
             CALL ft_forbidden_char
             CALL ft_check_double
@@ -79,10 +86,12 @@ section         .text
         RET
     
     ; rdi = litteral string of int at index 0
+    ALIGN 16
     ft_skip_space:
         PUSH rbp
         MOV rbp, rsp
         DEC rdi
+        ALIGN 16
         begin2:
             INC rdi
             CMP byte [rdi], 8
@@ -104,17 +113,20 @@ section         .text
 
     ; rdi : litteral string of int at the beginning of potential + or -
     ; return rax = 1 or -1 according to the number of "-" present
+    ALIGN 16
     ft_sign:
         PUSH rbp
         MOV rbp, rsp
         DEC rdi
         MOV al, 1
         JMP begin3
+        ALIGN 16
         jmp_neg:
             MOV ah, -1
             IMUL ah
             MOVSX rax, al
             JE begin3
+        ALIGN 16
         begin3:
             INC rdi
             CMP byte [rdi], 43
@@ -127,6 +139,7 @@ section         .text
     ; rdi : litteral string of int incremented where the char is part of the int
     ; rsi : base
     ; rax : counter => IF == len_base => byte is absent of base
+    ALIGN 16
     ft_position:
         PUSH rbp
         MOV rbp, rsp
@@ -135,6 +148,7 @@ section         .text
         MOV bl, byte [rdi]
         DEC rsi
         JMP begin5
+        ALIGN 16
         begin5:
             INC rsi
             INC rax
@@ -142,6 +156,7 @@ section         .text
             JE  end
             CMP byte [rsi], bl
             JNE begin5
+        ALIGN 16
         end:
             POP rbx
             POP rbp
@@ -150,12 +165,14 @@ section         .text
     ; rdi = string with the litteral int
     ; rsi = base
     ; rdx = sign of int
+    ALIGN 16
     ft_atoi:
         PUSH rbp
         MOV rbp, rsp
         PUSH r12
         PUSH r13
         XOR r12, r12 ; r12 = result
+        ALIGN 16
         begin4:
             CMP byte [rdi], 0
             JE end1
@@ -171,6 +188,7 @@ section         .text
             ADD r12, r13
             INC rdi
             JMP begin4
+        ALIGN 16
         end1: 
             MOV rax, r12
             IMUL rax, rdx

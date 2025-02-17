@@ -2,10 +2,12 @@ section         .text
     global  ft_list_remove_if
     extern  free
 
+    ALIGN 16
     ft_link:
         MOV [r10], r15
         JMP free_end
 
+    ALIGN 16
     ft_free:
         MOV rdi, r12
         PUSH r11
@@ -28,6 +30,7 @@ section         .text
     ; rsi : pointeur sur valeur a comparer
     ; rdx : pointeur sur fonction ft_cmp
     ; rcx : pointeur sur fonction free_fct
+    ALIGN 16
     ft_list_remove_if:
         PUSH rbp
         MOV rbp, rsp
@@ -49,6 +52,7 @@ section         .text
         MOV rsi, [rsi] ; rsi : valeur a comparer
         MOV r11, [rdi] ; r11 : pointeur sur 1er elem list
         XOR r14, r14
+        ALIGN 16
         loop :
             CMP r11, 0
             JE end
@@ -59,6 +63,7 @@ section         .text
             MOV r14, r11 ; r14 : elem-1
             MOV r11, [r11 + 8] ; begin = begin->next
             JMP loop
+        ALIGN 16
         end:
             POP r15
             POP r14

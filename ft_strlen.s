@@ -16,6 +16,7 @@ section         .text
             INC rdi ; increment rdi (le pointeur pour passer au char svt dans la string)
             JMP debut ; jump au debut -> nouveau tour de boucle
 
+        ALIGN 16
         fin:
             POP rbp
             RET ; Retourne toujours la valeur stockee dans le registre rax

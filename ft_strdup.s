@@ -4,6 +4,7 @@ section         .text
     extern ft_strlen
     extern ft_strcpy
 
+    ALIGN 16
     err:
         POP rax
         XOR rax, rax

@@ -7,6 +7,7 @@ section         .text
         MOV rbp, rsp
         XOR rax, rax
 
+        ALIGN 16
         debut:
             CMP byte [rdi],0
             JE end
@@ -19,6 +20,7 @@ section         .text
             INC rsi
             JMP debut
         
+        ALIGN 16
         end:
             MOV al, byte [rdi]
             MOV cl, byte [rsi]

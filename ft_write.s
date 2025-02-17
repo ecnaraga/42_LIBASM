@@ -2,8 +2,10 @@ section         .text
     global          ft_write
     extern          __errno_location
 
+    ALIGN 16
     error:
         MOV r10, rax
+        NEG r10
         CALL __errno_location wrt ..plt
         MOV [rax], r10
         MOV rax, -1
