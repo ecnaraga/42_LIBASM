@@ -52,7 +52,8 @@ extern void free_fct(void *elem __attribute__((unused))) {
 
 int main(int ac __attribute__((unused)), char **av __attribute__((unused))) {
 
-    t_list *begin = 0;
+    t_list *begin = NULL;
+	ft_list_push_front(&begin, NULL);
 	int array[] = {10, 11, 12, 13};
 	for (int i = 0; i < 4; i++) {
 		void *data = ft_lstnew(&array[i]);
@@ -69,11 +70,11 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused))) {
 	printf("begin = %p\n", begin);
 	printf("size of begin = %d\n", ft_list_size(begin));
 	printf("begin = %p\n", begin);
-	printf("%p\n", &begin); //0x7fffffffde00 rdi
-	printf("%p\n", begin); //0x5555555592e0 rbx
-	printf("%p\n", begin->data); //0x7fffffffddfc rax
-	printf("%d\n", *(int *)begin->data); //124
-	printf("%p\n", ft_cmp); //0x7fffffffde00 rdi
+	printf("%p\n", &begin);
+	printf("%p\n", begin);
+	printf("%p\n", begin->data);
+	printf("%d\n", *(int *)begin->data);
+	printf("%p\n", ft_cmp);
 	ft_list_sort(&begin, &ft_cmp);
 	tmp = begin;
 	while (begin) {
@@ -93,6 +94,3 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused))) {
 	begin = tmp;
 }
 
-/*
-0x5555555592e0
-*/
