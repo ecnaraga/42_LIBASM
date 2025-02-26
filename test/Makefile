@@ -9,6 +9,7 @@ SRCS = main.s
 SRCS_MANDAT =	main.c
 SRCS_BONUS =	main_linked_list.c
 INC_LIB = libasm.a
+
 OBJS = $(SRCS:.s=.o)
 OBJS_MANDAT = $(SRCS_MANDAT:.s=.o)
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)

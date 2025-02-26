@@ -53,28 +53,44 @@ extern void free_fct(void *elem __attribute__((unused))) {
 int main(int ac __attribute__((unused)), char **av __attribute__((unused))) {
 
     t_list *begin = NULL;
+	
+	// TEST ft_list_push_front + ft_list_size
+	printf("TEST ft_list_push_front + ft_list_size\n\n");
+	ft_list_push_front(NULL, NULL);
+	printf("size of begin = %d\n", ft_list_size(begin));
+	
 	ft_list_push_front(&begin, NULL);
+	printf("size of begin = %d\n", ft_list_size(begin));
+	
 	int array[] = {10, 11, 12, 13};
+	void *data = ft_lstnew(&array[0]);
+	ft_list_push_front(NULL, data);
+	free(data);
+	
 	for (int i = 0; i < 4; i++) {
 		void *data = ft_lstnew(&array[i]);
     	ft_list_push_front(&begin, data);
-	}
+		// ft_list_sort(&begin, &ft_cmp); // TO TEST ft_list_sort on lis t_size of 1
+}
+
+	ft_list_push_front(&begin, NULL);
+	
 	t_list *tmp = begin;
+	printf("Print_list\n");
 	while (begin) {
 		printf("%d\n", *(int*)(begin->data));
 		begin = begin->next;
 	}
 	begin = tmp;
-
-	// printf("size of begin = %d\n", ft_lstsize(begin));
-	printf("begin = %p\n", begin);
 	printf("size of begin = %d\n", ft_list_size(begin));
-	printf("begin = %p\n", begin);
-	printf("%p\n", &begin);
-	printf("%p\n", begin);
-	printf("%p\n", begin->data);
-	printf("%d\n", *(int *)begin->data);
-	printf("%p\n", ft_cmp);
+
+	printf("\nTEST ft_list_sort\n\n");
+
+	ft_list_sort(NULL, &ft_cmp);
+    t_list *tmpp = NULL;
+	ft_list_sort(&tmpp, &ft_cmp);
+	ft_list_sort(NULL, NULL);
+
 	ft_list_sort(&begin, &ft_cmp);
 	tmp = begin;
 	while (begin) {
@@ -82,15 +98,16 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused))) {
 		begin = begin->next;
 	}
 	begin = tmp;
+	ft_list_sort(NULL, &ft_cmp);
 
 	int a = 11;
 	ft_list_remove_if(&begin, &a, ft_cmp, free_fct);
 	printf("\n");
-	tmp = begin;
 	while (begin) {
+		tmp = begin;
 		printf("%d\n", *(int*)(begin->data));
 		begin = begin->next;
+		free(tmp);
 	}
-	begin = tmp;
 }
 
