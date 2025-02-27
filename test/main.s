@@ -122,13 +122,28 @@ main:
     CALL ft_write
 
     ; Call ft_strdup on strsrc
-    LEA rdi, [rel strsrc]
+    LEA rdi, [rel strsrccc]
     CALL ft_strdup
+
+    ; Call ft_strlen on ret ft_strdup
+    PUSH rax
+    MOV rdi, rax
+    SUB rsp, 8
+    CALL ft_strlen
+    ADD rsp, 8
+
+    ; Call printf to print ret ft_strlen
+    LEA rdi, [rel f_ft_strlen]
+    MOV rsi, rax
+    PUSH rax
+    CALL printf wrt ..plt
+    POP rax
 
     ; Call ft_write to print ret of ft_strdup on stdout
     MOV rdi, 1
+    MOV rdx, rax
+    POP rax
     MOV rsi, rax
-    MOV rdx, 9
     CALL ft_write
     MOV rdi, rsi
     CALL free wrt ..plt
@@ -171,6 +186,7 @@ section .data align=16
     ; strsrc  db 0
     strsrc  db "abcdefgh", 10, 0
     strsrcc db 1, 10, 0
+    strsrccc  db "abcdefgh", 10, 0
     str_int db "    -123A", 0
     base db "0123456789A", 0
     buffer TIMES 10 db 0 ; Declare an array of size 10 filled with 0
